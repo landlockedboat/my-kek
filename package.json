@@ -1,0 +1,28 @@
+{
+  "name": "my-kek",
+  "version": "1.0.0",
+  "description": "A game about giving, made with love.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Testing not implemented. Come back later or code it yourself.\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wextia/my-kek.git"
+  },
+  "keywords": [
+    "my",
+    "kek"
+  ],
+  "author": "wextia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wextia/my-kek/issues"
+  },
+  "homepage": "https://github.com/wextia/my-kek#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "nodemon": "^1.11.0",
+    "socket.io": "^1.7.2"
+  }
+}
