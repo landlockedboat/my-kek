@@ -47,7 +47,7 @@ $(function() {
   // This creates all the buttons hanging from the user buttons list
   function createUsersButtons(users){
     var clickfunc = function(){
-      socket.emit("add score", [current_username, this.id]);
+      socket.emit('add score', [current_username, this.id]);
     };
 
     for(var u in users){
@@ -67,6 +67,10 @@ $(function() {
   // Prevents input from having injected markup
   function cleanInput (input) {
     return $('<div/>').text(input).text();
+  }
+
+  function updateScore(new_score){
+    $userScore.text("Score: " + new_score);
   }
 
   function alertLoginFailed(){
@@ -107,5 +111,9 @@ $(function() {
 
   socket.on('login failed', function(){
     alertLoginFailed();
+  });
+
+  socket.on('update score', function(new_score){
+    updateScore(new_score);
   });
 });

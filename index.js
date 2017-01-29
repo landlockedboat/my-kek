@@ -21,10 +21,9 @@ var onlineUsers={};
 // Number of connected users at the moment
 var numUsers = 0;
 
-function print_users(){
-  console.log('Printing all users...');
-  for (var u in users){
-    console.log('  ' + users[u].username);
+function logDictKeys(dict){
+  for (var k in dict){
+    console.log('  ' + k);
   }
 }
 
@@ -91,13 +90,17 @@ io.on('connection', function (socket){
       user.username = username;
       users[username] = user;
       console.log('New user added: ' + username);
-      print_users();
+      console.log('Logging registered users:');
+      logDictKeys(users);
     }
+    // We store the username in the socket session for this client
+    socket.username = username;
     // We add the user to our connected users list to enable direct communication
     // between users in real time
     onlineUsers[username] = socket;
-    // We store the username in the socket session for this client
-    socket.username = username;
+    console.log('A user has come online: ' + username);
+    console.log('Logging all connected users:');
+    logDictKeys(onlineUsers);
     addedUser = true;
 
     socket.emit('login', {
@@ -146,7 +149,7 @@ io.on('connection', function (socket){
     // action cannot (presumably) be done offline
     // FIXME maybe i should bail out of the transaction
     // if the sender is not online
-    var sender_socket = onlineUsers[sender_socket];
+    var sender_socket = onlineUsers[sender_username];
 
     if(sender_socket){
       sender_socket.emit('update score', sender.score);
