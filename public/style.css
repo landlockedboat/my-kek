@@ -96,42 +96,36 @@ ul {
 display: none;
 }
 
-.user.score {
+.user.score, .kek.label, .give_to.label, .username {
   font-size: 10vw;
   padding: 0px;
   margin: 0px;
   text-align: center;
 }
 
+.username {
+  font-size: 11vw;
+  font-style: italic;
+}
 .give_to.label{
   font-size: 5vw;
-  padding: 0px;
-  margin: 0px;
-  text-align: center;
 }
 
-.kek.label{
-  font-size: 10vw;
-  text-align: center;
-  padding: 0px;
-  margin: 0px;
-}
-
-.user.button {
+.user_button {
     background-color: #4CAF50; /* Green */
-    border: none;
+    border-style: solid;
+    border-color: white;
+    border-width: 1vw 0px 0px 0px;
     color: white;
     padding: 15px 32px;
     text-decoration: none;
     text-align: center;
     margin: auto;
+    width: 100%;
     display: block;
     font-size: 8vw;
 }
 
-.username {
-  font-weight: 700;
-  overflow: hidden;
-  padding-right: 15px;
-  text-align: right;
+.user_button:active {
+  background-color: LimeGreen;
 }

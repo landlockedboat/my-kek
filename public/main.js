@@ -12,6 +12,8 @@ $(function() {
   var $userButtons = $('.user.button.list');
   // Label with the user score
   var $userScore = $('.user.score');
+  // Label with the user name
+  var $userName = $('.username');
 
   var current_username;
   var connected=false;
@@ -60,6 +62,7 @@ $(function() {
         id: u,
         click: clickfunc
       });
+      $butt.addClass('user_button');
       $userButtons.append($butt);
     }
   }
@@ -105,6 +108,7 @@ $(function() {
     connected = true;
     console.log("You are connected.");
     fadeToMain();
+    $userName.text(current_username);
     updateScore(data.score);
     createUsersButtons(data.users);
   });

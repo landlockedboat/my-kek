@@ -74,7 +74,8 @@ io.on('connection', function (socket){
 
   socket.on('add user', function (username) {
 
-    if(addedUser){
+    // This user already has a session started somewhere
+    if(addedUser || onlineUsers[username]){
       socket.emit('login failed');
       return;
     }
@@ -171,6 +172,13 @@ io.on('connection', function (socket){
 
   });
 
+  socket.on('disconnect', function(){
+    var username = socket.username;
+    delete onlineUsers[username];
+    console.log('User ' + username + ' left.');
+    console.log('Logging all connected users:');
+    logDictKeys(onlineUsers);
+  });
 });
 
 // "main" code executed by the server

@@ -1,13 +1,25 @@
 {
-  "pepe":
-    {
-      "score":10,
-      "username":"pepe"
-    },
+  "stig":
+  {
+    "score":10,
+    "username":"stig"
+  },
 
-  "pope":
-    {
-      "score":10,
-      "username":"pope"
-    }
+  "ray":
+  {
+    "score":10,
+    "username":"ray"
+  },
+
+  "houquette":
+  {
+    "score":10,
+    "username":"houquette"
+  },
+
+  "yellow":
+  {
+    "score":10,
+    "username":"yellow"
+  }
 }
