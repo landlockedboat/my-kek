@@ -1,0 +1,13 @@
+{
+  "pepe":
+    {
+      "score":10,
+      "username":"pepe"
+    },
+
+  "pope":
+    {
+      "score":10,
+      "username":"pope"
+    }
+}

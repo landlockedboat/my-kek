@@ -22,15 +22,21 @@ $(function() {
   // Sets the client's username
   function setUsername () {
     current_username = cleanInput($usernameInput.val().trim());
-
     // If the username is valid
     if (current_username) {
-      $loginPage.fadeOut();
-      $mainPage.show();
-      $loginPage.off('click');
       // Tell the server your username
       socket.emit('add user', current_username);
     }
+    else {
+      // That counts as a login failed
+      alertLoginFailed();
+    }
+  }
+
+  function fadeToMain(){
+    $loginPage.fadeOut();
+    $mainPage.show();
+    $loginPage.off('click');
   }
 
   // Erases all button inside the ul
@@ -63,6 +69,9 @@ $(function() {
     return $('<div/>').text(input).text();
   }
 
+  function alertLoginFailed(){
+    alert('Login failed. Try with another username.');
+  }
 
   $window.keydown(function (event) {
     // Auto-focus the current input when a key is typed
@@ -71,11 +80,7 @@ $(function() {
     }
     // When the client hits ENTER on their keyboard
     if (event.which === 13) {
-      if (current_username) {
-        sendMessage();
-        socket.emit('stop typing');
-        typing = false;
-      } else {
+      if(!connected){
         setUsername();
       }
     }
@@ -95,7 +100,12 @@ $(function() {
   socket.on('login', function(data){
     connected = true;
     console.log("You are connected.");
+    fadeToMain();
     $userScore.text('Score: ' + data.score);
     createUsersButtons(data.users);
+  });
+
+  socket.on('login failed', function(){
+    alertLoginFailed();
   });
 });

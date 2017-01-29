@@ -15,6 +15,7 @@ server.listen(port, function () {
 app.use(express.static(__dirname + '/public'));
 
 var users = {};
+var permitNewUsers = false;
 // Users connected at the moment
 var onlineUsers={};
 // Number of connected users at the moment
@@ -28,12 +29,17 @@ function print_users(){
 }
 
 function save_users(){
-
+  fs.writeFile('./data/users.json', JSON.stringify(users));
 }
 
 function load_users(){
-  $.getJSON('data/users.json', function(data){
-    users = data;
+  var users_json;
+  fs.readFile('./data/users.json', function read(err, data) {
+    if (err) {
+        throw err;
+    }
+    users_json = data;
+    users = JSON.parse(users_json);
   });
 }
 
@@ -68,10 +74,17 @@ io.on('connection', function (socket){
   var addedUser = false;
 
   socket.on('add user', function (username) {
-    if(addedUser)
-      return;
 
-    if(!users[username]){
+    if(addedUser){
+      socket.emit('login failed');
+      return;
+    }
+
+    if(!users[username]) {
+      if(!permitNewUsers) {
+        socket.emit('login failed');
+        return;
+      }
       // Adding new user to our database
       var user = {};
       user.score = 10;
@@ -80,7 +93,6 @@ io.on('connection', function (socket){
       console.log('New user added: ' + username);
       print_users();
     }
-
     // We add the user to our connected users list to enable direct communication
     // between users in real time
     onlineUsers[username] = socket;
@@ -159,3 +171,5 @@ io.on('connection', function (socket){
 });
 
 // "main" code executed by the server
+load_users();
+// save_users();
