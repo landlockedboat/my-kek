@@ -88,8 +88,45 @@ ul {
 
 /* Main page */
 
-.main.page {
+/*.login.page {
   display: none;
+}*/
+
+.main.page {
+display: none;
+}
+
+.user.score {
+  font-size: 10vw;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+.give_to.label{
+  font-size: 5vw;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+.kek.label{
+  font-size: 10vw;
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+}
+
+.user.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    text-align: center;
+    margin: auto;
+    display: block;
+    font-size: 8vw;
 }
 
 .username {

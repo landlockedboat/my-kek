@@ -70,7 +70,7 @@ $(function() {
   }
 
   function updateScore(new_score){
-    $userScore.text("Score: " + new_score);
+    $userScore.text(new_score);
   }
 
   function alertLoginFailed(){
@@ -105,7 +105,7 @@ $(function() {
     connected = true;
     console.log("You are connected.");
     fadeToMain();
-    $userScore.text('Score: ' + data.score);
+    updateScore(data.score);
     createUsersButtons(data.users);
   });
 
