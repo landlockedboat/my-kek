@@ -9,7 +9,7 @@ $(function() {
   var $mainPage = $('.main.page');
   // Here we hold a reference to a ul from which hang all buttons
   // representing the registered users.
-  var $userButtons = $('.user.button.list')
+  var $userButtons = $('.user.button.list');
   // Label with the user score
   var $userScore = $('.user.score');
 
@@ -40,7 +40,11 @@ $(function() {
 
   // This creates all the buttons hanging from the user buttons list
   function createUsersButtons(users){
-    for(u in users){
+    var clickfunc = function(){
+      socket.emit("add score", [current_username, this.id]);
+    };
+
+    for(var u in users){
       var rec_username = users[u].username;
       if(rec_username == current_username)
         continue;
@@ -48,14 +52,10 @@ $(function() {
       var $butt = $('<button/>', {
         text: rec_username,
         id: u,
-        click: function () {addScore(this)}
+        click: clickfunc
       });
       $userButtons.append($butt);
     }
-  }
-
-  function addScore(elem){
-    socket.emit("add score", [current_username, elem.id])
   }
 
   // Prevents input from having injected markup

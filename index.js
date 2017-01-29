@@ -21,8 +21,8 @@ var onlineUsers={};
 var numUsers = 0;
 
 function print_users(){
-  console.log('Printing all users...')
-  for (u in users){
+  console.log('Printing all users...');
+  for (var u in users){
     console.log('  ' + users[u].username);
   }
 }
@@ -32,7 +32,9 @@ function save_users(){
 }
 
 function load_users(){
-
+  $.getJSON('data/users.json', function(data){
+    users = data;
+  });
 }
 
 function errorUserNotExists(username) {
@@ -104,7 +106,7 @@ io.on('connection', function (socket){
     var sender_username = data[0];
     var reciever_username = data[1];
 
-    var sender = users[sender_username]
+    var sender = users[sender_username];
     if(!sender){
       errorDuringTransaction(data);
       errorUserNotExists(sender_username);
@@ -155,3 +157,5 @@ io.on('connection', function (socket){
   });
 
 });
+
+// "main" code executed by the server
