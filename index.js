@@ -21,6 +21,8 @@ var onlineUsers={};
 // Number of connected users at the moment
 var numUsers = 0;
 
+var scoreIncrement = 5;
+
 function logDictKeys(dict){
   for (var k in dict){
     console.log('  ' + k);
@@ -35,7 +37,7 @@ function load_users(){
   var users_json;
   fs.readFile('./data/users.json', function read(err, data) {
     if (err) {
-        throw err;
+      throw err;
     }
     users_json = data;
     users = JSON.parse(users_json);
@@ -54,7 +56,7 @@ function errorDuringTransaction(data){
   var su = data[0];
   var ru = data[1];
   console.log('Cannot complete transaction between ' +
-    su + ' and ' + ru + '. Reason:');
+  su + ' and ' + ru + '. Reason:');
 }
 
 function logUserScore(username){
@@ -66,7 +68,38 @@ function logTransactionCompleted(data){
   var su = data[0];
   var ru = data[1];
   console.log('Transaction between ' +
-    su + ' and ' + ru + ' completed successfully.');
+  su + ' and ' + ru + ' completed successfully.');
+}
+
+function getTomorrowDate(){
+  var tomorrow = new Date();
+  // tomorrow.setHours(24);
+  // tomorrow.setMinutes(0);
+  // tomorrow.setSeconds(0);
+  // tomorrow.setMilliseconds(0);
+  tomorrow.setSeconds(tomorrow.getSeconds() + 10);
+  return tomorrow;
+}
+
+function init_countdown(){
+
+  function resetClock(timeInterval){
+    var tomorrow = getTomorrowDate();
+    for (var u in users) {
+      users[u].score += scoreIncrement;
+      if(onlineUsers[u]){
+        onlineUsers[u].emit('reset clock',
+        {
+          score: users[u].score,
+          endtime: tomorrow.toString()
+        });
+      }
+    }
+    init_countdown();
+  }
+  var tomorrow = getTomorrowDate();
+  var diff = tomorrow - new Date().getTime();
+  setTimeout(resetClock, diff);
 }
 
 io.on('connection', function (socket){
@@ -103,10 +136,11 @@ io.on('connection', function (socket){
     console.log('Logging all connected users:');
     logDictKeys(onlineUsers);
     addedUser = true;
-
+    var tomorrow = getTomorrowDate();
     socket.emit('login', {
       score: users[username].score,
-      users: users
+      users: users,
+      endtime: tomorrow.toString()
     });
 
     socket.broadcast.emit('added user', {
@@ -116,8 +150,8 @@ io.on('connection', function (socket){
 
   });
 
-// Data contains the names of the users sending(0) and recieving(1) the
-// score
+  // Data contains the names of the users sending(0) and recieving(1) the
+  // score
   socket.on('add score', function(data){
     var sender_username = data[0];
     var reciever_username = data[1];
@@ -183,4 +217,5 @@ io.on('connection', function (socket){
 
 // "main" code executed by the server
 load_users();
+init_countdown();
 // save_users();

@@ -96,7 +96,7 @@ ul {
 display: none;
 }
 
-.user.score, .kek.label, .give_to.label, .username {
+.user.score, .kek.label, .give_to.label, .username, #clockdiv {
   font-size: 10vw;
   padding: 0px;
   margin: 0px;
@@ -128,4 +128,8 @@ display: none;
 
 .user_button:active {
   background-color: LimeGreen;
+}
+
+#clockdiv {
+  font-size: 4vw;
 }

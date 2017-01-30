@@ -14,12 +14,45 @@ $(function() {
   var $userScore = $('.user.score');
   // Label with the user name
   var $userName = $('.username');
+  // Label with the remaining time to more keks
+  var $clock = $('#clockdiv');
 
   var current_username;
   var connected=false;
   var $currentInput = $usernameInput.focus();
 
   var socket=io();
+  // Function used for the clock
+  function getTimeRemaining(endtime){
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    var seconds = Math.floor( (t/1000) % 60 );
+    var minutes = Math.floor( (t/1000/60) % 60 );
+    var hours = Math.floor( (t/(1000*60*60)) % 24 );
+    var days = Math.floor( t/(1000*60*60*24) );
+    return {
+      'total': t,
+      'days': days,
+      'hours': hours,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  }
+
+  function initializeClock(endtime){
+    function updateClock(){
+      var t = getTimeRemaining(endtime);
+      function slice(time){
+        return ('0' + time).slice(-2);
+      }
+      $clock.text (slice(t.hours) + ':' +
+        slice(t.minutes) + ':' + slice(t.seconds));
+      if(t.total<=0){
+        clearInterval(timeinterval);
+      }
+    }
+    updateClock(); // run function once at first to avoid delay
+    var timeinterval = setInterval(updateClock,1000);
+  }
 
   // Sets the client's username
   function setUsername () {
@@ -49,7 +82,9 @@ $(function() {
   // This creates all the buttons hanging from the user buttons list
   function createUsersButtons(users){
     var clickfunc = function(){
-      socket.emit('add score', [current_username, this.id]);
+      if (confirm('Enviar un kek a ' + this.id + ' ?')) {
+          socket.emit('add score', [current_username, this.id]);
+      }
     };
 
     for(var u in users){
@@ -77,7 +112,7 @@ $(function() {
   }
 
   function alertLoginFailed(){
-    alert('Login failed. Try with another username.');
+    alert('Error en el login.');
   }
 
   $window.keydown(function (event) {
@@ -98,6 +133,12 @@ $(function() {
     $currentInput.focus();
   });
 
+  socket.on('reset clock', function(data){
+    // We update the users buttons
+    updateScore(data.score);
+    initializeClock(data.endtime);
+  });
+
   socket.on('added user', function(data){
     // We update the users buttons
     eraseUserButtons();
@@ -106,9 +147,9 @@ $(function() {
 
   socket.on('login', function(data){
     connected = true;
-    console.log("You are connected.");
     fadeToMain();
     $userName.text(current_username);
+    initializeClock(data.endtime);
     updateScore(data.score);
     createUsersButtons(data.users);
   });
