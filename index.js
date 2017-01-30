@@ -73,11 +73,11 @@ function logTransactionCompleted(data){
 
 function getTomorrowDate(){
   var tomorrow = new Date();
-  // tomorrow.setHours(24);
-  // tomorrow.setMinutes(0);
-  // tomorrow.setSeconds(0);
-  // tomorrow.setMilliseconds(0);
-  tomorrow.setSeconds(tomorrow.getSeconds() + 10);
+  tomorrow.setHours(24);
+  tomorrow.setMinutes(0);
+  tomorrow.setSeconds(0);
+  tomorrow.setMilliseconds(0);
+  // tomorrow.setSeconds(tomorrow.getSeconds() + 10);
   return tomorrow;
 }
 
