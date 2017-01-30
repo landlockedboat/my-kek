@@ -96,19 +96,29 @@ ul {
 display: none;
 }
 
-.user.score, .kek.label, .give_to.label, .username, #clockdiv {
-  font-size: 10vw;
+.it.big.label, .sma.label, .med.label, .big.label, .huge.label {
   padding: 0px;
   margin: 0px;
   text-align: center;
 }
 
-.username {
-  font-size: 11vw;
+.big.label, .it.big.label{
+  font-size: 10vw;
+}
+
+.huge.label {
+  font-size: 30vw;
+}
+
+.it.big.label {
   font-style: italic;
 }
-.give_to.label{
-  font-size: 5vw;
+.med.label{
+  font-size: 6vw;
+}
+
+.sma.label {
+  font-size: 4vw;
 }
 
 .user_button {
@@ -128,8 +138,4 @@ display: none;
 
 .user_button:active {
   background-color: LimeGreen;
-}
-
-#clockdiv {
-  font-size: 4vw;
 }

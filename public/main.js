@@ -9,13 +9,13 @@ $(function() {
   var $mainPage = $('.main.page');
   // Here we hold a reference to a ul from which hang all buttons
   // representing the registered users.
-  var $userButtons = $('.user.button.list');
+  var $userButtons = $('.button.list');
   // Label with the user score
-  var $userScore = $('.user.score');
+  var $userScore = $('#score');
   // Label with the user name
-  var $userName = $('.username');
+  var $userName = $('#username');
   // Label with the remaining time to more keks
-  var $clock = $('#clockdiv');
+  var $clock = $('#clock');
 
   var current_username;
   var connected=false;
